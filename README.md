@@ -16,7 +16,7 @@
 # License
 
 ```
-This Project licensed under Apache 1.0 
+This Project licensed under Apache 2.0 
 ```
 
 [NekoUI]: https://modrinth.com/mod/nekoui
