@@ -5,17 +5,26 @@ import org.brokenedtz.nekoui.loader.LoaderDetectorFactory;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.stream.Stream;
 
 public class NekoUIDownloader {
     public static void download(String tag, String version) {
         try {
-            String fileURL = URLGenerator.generateDownloadURL(tag, version);
-            Constants.LOG.info("Starting Downloading NekoUI...");
-
-            Path destination = Path.of("mods/nekoui-" + version + "-" +
-                    LoaderDetectorFactory.getLoaderDetector() + ".jar");
-
             final int[] previousProgress = {-1};
+
+            String loader = LoaderDetectorFactory.getLoaderDetector();
+            Path modsFolder = Path.of("mods");
+            Path destination = Path.of(modsFolder.toString(), "nekoui-" + version + "-" + loader + ".jar");
+            String fileURL = URLGenerator.generateDownloadURL(tag, version);
+
+            if (isMainModAlreadyExists(modsFolder, version, loader)) {
+                Constants.LOG.warn("NekoUI mod file already exists: {}", destination.toAbsolutePath());
+                Constants.LOG.info("Attempting to remove NekoUI Downloader...");
+
+                removeDownloaderIfExists();
+                return;
+            }
+            Constants.LOG.info("Starting Downloading NekoUI...");
 
             FileDownloader.downloadFile(fileURL, destination, progress -> {
                 if (progress != previousProgress[0]) {
@@ -33,10 +42,25 @@ public class NekoUIDownloader {
                 }
             });
             Constants.LOG.info("\nDownload complete at: {}", destination.toAbsolutePath());
+            Constants.LOG.warn("This is normal crash when remove nekoui downloader, please dont report it. Just relaunch the client, and it will loaded normally.");
 
             removeDownloaderIfExists();
         } catch (Exception e) {
             Constants.LOG.error("Failed to download file: {}", e.getMessage());
+        }
+    }
+
+    private static boolean isMainModAlreadyExists(Path modsFolder, String version, String loader) {
+        try (Stream<Path> files = Files.list(modsFolder)) {
+            return files
+                    .filter(Files::isRegularFile)
+                    .anyMatch(file -> {
+                        String fileName = file.getFileName().toString();
+                        return fileName.matches("nekoui-" + version + "-" + loader + "\\.jar");
+                    });
+        } catch (Exception e) {
+            Constants.LOG.error("Failed to check existing mod files: {}", e.getMessage());
+            return false;
         }
     }
 
@@ -53,7 +77,6 @@ public class NekoUIDownloader {
                 if (Files.exists(downloaderPath)) {
                     Files.delete(downloaderPath);
                     Constants.LOG.info("Downloader removed: {}", downloaderPath.toAbsolutePath());
-                    Constants.LOG.warn("This is normal crash when remove nekoui downloader, please dont report it. Just relaunch the client, and it will loaded normally.");
                     return;
                 }
             } catch (Exception e) {
