@@ -1,5 +1,6 @@
 package org.brokenedtz.nekoui.downloader;
 
+import net.minecraft.client.Minecraft;
 import org.brokenedtz.nekoui.core.Constants;
 import org.brokenedtz.nekoui.loader.LoaderDetectorFactory;
 
@@ -45,6 +46,7 @@ public class NekoUIDownloader {
             Constants.LOG.warn("This is normal crash when remove nekoui downloader, please dont report it. Just relaunch the client, and it will loaded normally.");
 
             removeDownloaderIfExists();
+            Minecraft.getInstance().destroy();
         } catch (Exception e) {
             Constants.LOG.error("Failed to download file: {}", e.getMessage());
         }
