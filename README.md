@@ -13,6 +13,12 @@
 > [!NOTE]
 > this project only for downloading main [NekoUI] Mod
 
+# Test Results
+[![Forge](https://img.shields.io/badge/forge-passed-green)](https://github.com/SITCommunity/NekoUI-Downloader)
+[![Fabric](https://img.shields.io/badge/fabric-passed-green)](https://github.com/SITCommunity/NekoUI-Downloader)
+[![Quilt](https://img.shields.io/badge/quilt-unknown-red)](https://github.com/SITCommunity/NekoUI-Downloader)
+[![NeoForged](https://img.shields.io/badge/neoforged-unknown-red)](https://github.com/SITCommunity/NekoUI-Downloader)
+
 # License
 
 ```
