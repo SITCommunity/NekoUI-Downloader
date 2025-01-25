@@ -11,17 +11,13 @@
         "homepage": "https://modrinth.com/mod/nekoui"
     },
     "license": "${license}",
-    "icon": "icon.png",
+    "icon": "${mod_id}.png",
     "environment": "*",
     "entrypoints": {
         "client": [
             "org.brokenedtz.nekoui.NekoUIFabric"
         ]
     },
-    "mixins": [
-        "${mod_id}.mixins.json",
-        "${mod_id}.fabric.mixins.json"
-    ],
     "depends": {
         "fabricloader": ">=0.14",
         "fabric-api": "*",

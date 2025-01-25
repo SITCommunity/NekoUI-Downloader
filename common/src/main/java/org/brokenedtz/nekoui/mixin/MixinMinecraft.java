@@ -1,9 +1,7 @@
 package org.brokenedtz.nekoui.mixin;
 
 import org.brokenedtz.nekoui.core.Constants;
-
 import net.minecraft.client.Minecraft;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

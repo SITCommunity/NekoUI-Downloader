@@ -13,14 +13,13 @@ javafx {
 }
 
 base {
-    archivesName = "nekoui_downloader_forge"
+    archivesName = "nekoui_downloader_forge-${minecraft_version}"
 }
 
 mixin {
     add(sourceSets.main, "${mod_id}.refmap.json")
 
     config("${mod_id}.mixins.json")
-    config("${mod_id}.forge.mixins.json")
 }
 
 minecraft {
@@ -68,7 +67,9 @@ sourceSets.main.resources.srcDir 'src/generated/resources'
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
     compileOnly project(":common")
+    implementation group:'org.spongepowered', name: 'mixin', version: '0.8.5'
     annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT:processor")
 }
 

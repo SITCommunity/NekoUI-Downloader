@@ -1,7 +1,8 @@
 package org.brokenedtz.nekoui;
 
-import net.fabricmc.api.ClientModInitializer;
 import org.brokenedtz.nekoui.core.Constants;
+
+import net.fabricmc.api.ClientModInitializer;
 
 public class NekoUIFabric implements ClientModInitializer {
     @Override

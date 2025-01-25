@@ -1,9 +1,12 @@
 package org.brokenedtz.nekoui.downloader;
 
-import net.minecraft.client.Minecraft;
+import static org.brokenedtz.nekoui.core.Constants.version;
 import org.brokenedtz.nekoui.core.Constants;
 import org.brokenedtz.nekoui.loader.LoaderDetectorFactory;
 
+import net.minecraft.client.Minecraft;
+
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.Stream;
@@ -15,7 +18,7 @@ public class NekoUIDownloader {
 
             String loader = LoaderDetectorFactory.getLoaderDetector();
             Path modsFolder = Path.of("mods");
-            Path destination = Path.of(modsFolder.toString(), "nekoui-" + version + "-" + loader + ".jar");
+            Path destination = Path.of(modsFolder.toString(), "nekoui_" + loader + "_" + version + ".jar");
             String fileURL = URLGenerator.generateDownloadURL(tag, version);
 
             if (isMainModAlreadyExists(modsFolder, version, loader)) {
@@ -25,8 +28,8 @@ public class NekoUIDownloader {
                 removeDownloaderIfExists();
                 return;
             }
-            Constants.LOG.info("Starting Downloading NekoUI...");
 
+            Constants.LOG.info("Checking file availability at URL: {}", fileURL);
             FileDownloader.downloadFile(fileURL, destination, progress -> {
                 if (progress != previousProgress[0]) {
                     previousProgress[0] = progress;
@@ -47,8 +50,12 @@ public class NekoUIDownloader {
 
             removeDownloaderIfExists();
             Minecraft.getInstance().destroy();
+        } catch (IOException e) {
+            Constants.LOG.error("File download failed: {}", e.getMessage());
+            Minecraft.getInstance().destroy();
         } catch (Exception e) {
             Constants.LOG.error("Failed to download file: {}", e.getMessage());
+            Minecraft.getInstance().destroy();
         }
     }
 
@@ -68,9 +75,10 @@ public class NekoUIDownloader {
 
     private static void removeDownloaderIfExists() {
         String[] downloaderFiles = {
-                "nekoui_downloader_fabric.jar",
-                "nekoui_downloader_forge.jar",
-                "nekoui_downloader_quilt.jar"
+                "nekoui_downloader_fabric-" + Minecraft.getInstance().getLaunchedVersion() + "-" + version +".jar",
+                "nekoui_downloader_forge-" + Minecraft.getInstance().getLaunchedVersion() + "-" + version + ".jar",
+                "nekoui_downloader_quilt-" + Minecraft.getInstance().getLaunchedVersion() + "-" + version +".jar",
+                "nekoui_downloader_neoforge-" + Minecraft.getInstance().getLaunchedVersion() + "-" + version +".jar"
         };
 
         for (String downloader : downloaderFiles) {
@@ -78,6 +86,7 @@ public class NekoUIDownloader {
             try {
                 if (Files.exists(downloaderPath)) {
                     Files.delete(downloaderPath);
+
                     Constants.LOG.info("Downloader removed: {}", downloaderPath.toAbsolutePath());
                     return;
                 }
