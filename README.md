@@ -19,6 +19,8 @@
 [![Quilt](https://img.shields.io/badge/quilt-unknown-red)](https://github.com/SITCommunity/NekoUI-Downloader)
 [![NeoForged](https://img.shields.io/badge/neoforged-unknown-red)](https://github.com/SITCommunity/NekoUI-Downloader)
 
+[![Download](https://img.shields.io/github/downloads/SITCommunity/NekoUI-Downloader/total)](https://github.com/SITCommunity/NekoUI-Downloader/releases)
+
 # License
 
 ```
